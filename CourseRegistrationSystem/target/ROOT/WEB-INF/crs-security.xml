@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http>
+		<intercept-url pattern="/student**"
+			access="hasRole('ROLE_STUDENT')" />
+		<intercept-url pattern="/professor**"
+			access="hasRole('ROLE_PROFESSOR')" />
+		<intercept-url pattern="/registrar**"
+			access="hasRole('ROLE_REGISTRAR')" />
+		<form-login login-page="/login"
+			login-processing-url="/j_spring_security_login"
+			default-target-url="/"
+			authentication-failure-url="/login?message=error"
+			username-parameter="username" password-parameter="password" />
+		<logout logout-url="/j_spring_security_logout"
+			logout-success-url="/login?message=logout"
+			delete-cookies="JSESSIONID" />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="student" password="student"
+					authorities="ROLE_STUDENT" />
+				<user name="professor" password="professor"
+					authorities="ROLE_PROFESSOR" />
+				<user name="registrar" password="registrar"
+					authorities="ROLE_REGISTRAR" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+</beans:beans>
